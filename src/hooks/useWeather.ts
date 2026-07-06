@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 
 interface WeatherData {
   name: string;
+  coord: {
+    lat: number;
+    lon: number
+  };
   main: {
     temp: number;
     humidity: number;
