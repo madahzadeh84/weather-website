@@ -1,35 +1,26 @@
 // src/hooks/useWeather.ts
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-interface WeatherData {
+export interface WeatherData {
   name: string;
-  coord: {
-    lat: number;
-    lon: number
-  };
+  coord: { lat: number; lon: number };
   main: {
     temp: number;
-    humidity: number;
     feels_like: number;
+    humidity: number;
   };
-  weather: {
-    description: string;
-    icon: string;
-  }[];
-  wind: {
-    speed: number;
-  };
+  weather: Array<{ description: string; icon: string }>;
+  wind: { speed: number };
 }
 
-const API_KEY = import.meta.env.VITE_OWM_API_KEY;
-
-export function useWeather(city: string) {
+export function useWeather(city: string | null, lat?: number | null, lon?: number | null) {
   const [data, setData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!city) return;
+    const hasCoords = lat !== undefined && lon !== undefined && lat !== null && lon !== null;
+    if (!city && !hasCoords) return;
 
     const controller = new AbortController();
 
@@ -37,37 +28,36 @@ export function useWeather(city: string) {
       setLoading(true);
       setError(null);
       try {
-        const params = new URLSearchParams({
-          q: city,
-          appid: API_KEY,
-          units: "metric",
-          lang: "fa",
-        });
+        const apiKey = import.meta.env.VITE_OWM_API_KEY;
+        let url = "";
 
-        const res = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?${params}`,
-          { signal: controller.signal }
-        );
-
-        //https://api.openweathermap.org/data/2.5/weather?q="tehran"&appid="dasdsaf"&units="metric"&lang="fa"
-
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+        if (hasCoords) {
+          url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=fa&appid=${apiKey}`;
+        } else {
+          url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=fa&appid=${apiKey}`;
         }
 
+        const res = await fetch(url, { signal: controller.signal });
+        if (!res.ok) {
+          throw new Error("خطا در دریافت اطلاعات آب‌وهوا");
+        }
         const json = await res.json();
         setData(json);
       } catch (err: any) {
-        if (err.name === "AbortError") return;
-        setError("خطا در دریافت اطلاعات آب‌وهوا");
+        if (err.name !== "AbortError") {
+          setError(err.message || "خطایی رخ داده است");
+        }
       } finally {
         setLoading(false);
       }
     }
 
     fetchWeather();
-    return () => controller.abort();
-  }, [city]);
+
+    return () => {
+      controller.abort();
+    };
+  }, [city, lat, lon]);
 
   return { data, loading, error };
 }
