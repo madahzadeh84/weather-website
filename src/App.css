@@ -1,16 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap");
 
-@font-face {
-  font-family: IRANSans;
-  font-style: normal;
-  font-weight: normal;
-  src: url("../fonts/IRANSans-web.eot");
-  src:
-    url("../fonts/IRANSans-web.eot?#iefix") format("embedded-opentype"),
-    /* IE6-8 */ url("../fonts/IRANSans-web.woff2") format("woff2"),
-    /* Chrome36+, Opera24+*/ url("../fonts/IRANSans-web.woff") format("woff"),
-    /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url("../fonts/IRANSans-web.ttf")
-      format("truetype");
+@import url(fontiran.css);
+body {
+font-family: IRANSans;
+font-weight: 300;
 }
 
 :root {
