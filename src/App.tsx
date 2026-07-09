@@ -7,7 +7,7 @@ import { useFavorites } from "./hooks/useFavorites";
 import { useGeocoding } from "./hooks/useGeocoding";
 import type { GeocodingSuggestion } from "./hooks/useGeocoding";
 import { useTheme } from "./hooks/useTheme";
-import "./App.css";
+import "../public/assets/css/App.css"
 
 const aqiLabels = [
   "",

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap");
 
-@import url(fontiran.css);
+@import url(/public/assets/fonts/FontIran.css);
 body {
 font-family: IRANSans;
 font-weight: normal;
