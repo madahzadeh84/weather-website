@@ -7,7 +7,8 @@ import { useFavorites } from "./hooks/useFavorites";
 import { useGeocoding } from "./hooks/useGeocoding";
 import type { GeocodingSuggestion } from "./hooks/useGeocoding";
 import { useTheme } from "./hooks/useTheme";
-import "../public/assets/css/App.css"
+import "../public/assets/css/App.css";
+import { getCustomWeatherIcon } from "./utils/customWeatherIcons";
 
 const aqiLabels = [
   "",
@@ -313,10 +314,11 @@ export default function App() {
             </div>
 
             <img
-              src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
-              alt="آیکون آب‌وهوا"
+              src={getCustomWeatherIcon(data)}
+              alt={data?.weather?.[0]?.description || "آیکون آب‌وهوا"}
               className="weather-icon"
             />
+
             <p className="temp">{Math.round(data.main.temp)}°C</p>
             <p className="description">{data.weather[0].description}</p>
 
@@ -365,8 +367,10 @@ export default function App() {
                           )}
                         </p>
                         <img
-                          src={`https://openweathermap.org/img/wn/${item.weather[0].icon}.png`}
-                          alt=""
+                          src={getCustomWeatherIcon({
+                            weather: [{ icon: item.weather[0].icon }],
+                          })}
+                          alt={item.weather[0].description || "آیکون آب‌وهوا"}
                           className="forecast-icon"
                         />
                         <p className="forecast-temp">
