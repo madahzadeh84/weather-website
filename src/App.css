@@ -111,7 +111,7 @@
 /* ========================================== */
 * {
   box-sizing: border-box;
-  font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+  font-family: "Vazirmatn", "Tahoma", "sans-serif";
 }
 
 html,
@@ -119,6 +119,7 @@ body,
 #root {
   min-height: 100vh;
   margin: 0;
+  font-family: "Vazirmatn"
 }
 
 body {
