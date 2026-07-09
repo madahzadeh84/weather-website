@@ -3,7 +3,7 @@
 @import url(fontiran.css);
 body {
 font-family: IRANSans;
-font-weight: 300;
+font-weight: normal;
 }
 
 :root {
